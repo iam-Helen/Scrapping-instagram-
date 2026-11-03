@@ -6,8 +6,12 @@
 # Аккаунты для мониторинга: имя пользователя (с @ или без)
 # или ссылка на профиль (https://www.instagram.com/имя_аккаунта/).
 comptes:
-  # - primer_akkaunta
-  # - https://www.instagram.com/drugoy_akkaunt/
+  - yanasy
+  - saymyname_regina
+  - bartkovskay_psy
+  - irinassolo
+  - silvo_polina
+  - yul.sova.psy
 
 # Хештеги для мониторинга (без #).
 hashtags:
