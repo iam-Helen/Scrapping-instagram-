@@ -23,8 +23,9 @@ jobs:
       - name: Запустить мониторинг и отправить отчёт
         env:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # Принимаются оба варианта названий секретов: полные и короткие (TG_…).
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.TG_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || secrets.TG_CHAT_ID }}
         run: python veille.py
       - name: Сохранить выгрузки (JSON + CSV) на 30 дней
         if: always()

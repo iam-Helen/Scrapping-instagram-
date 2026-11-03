@@ -399,9 +399,15 @@ def main(argv: list[str] | None = None) -> int:
         print("\n\n──────── следующее сообщение ────────\n\n".join(messages))
         return 0
 
-    bot, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
-    if not bot or not chat:
-        print("Ошибка: нужно задать TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID.", file=sys.stderr)
+    bot = os.environ.get("TELEGRAM_BOT_TOKEN") or os.environ.get("TG_BOT_TOKEN")
+    chat = os.environ.get("TELEGRAM_CHAT_ID") or os.environ.get("TG_CHAT_ID")
+    manque = [n for n, v in (("TELEGRAM_BOT_TOKEN", bot), ("TELEGRAM_CHAT_ID", chat)) if not v]
+    if manque:
+        print(
+            f"Ошибка: не найден секрет {', '.join(manque)}. Проверь названия в "
+            "Settings → Secrets and variables → Actions → Repository secrets.",
+            file=sys.stderr,
+        )
         return 1
     envoyer_telegram(messages, bot, chat)
     print(f"Отчёт отправлен в Telegram (сообщений: {len(messages)}).")
