@@ -1,0 +1,28 @@
+# ─────────────────────────────────────────────────────────────
+#  Configuration de la veille Instagram
+#  Modifie seulement ce fichier pour changer ce qui est surveillé.
+# ─────────────────────────────────────────────────────────────
+
+# Comptes à surveiller : nom d'utilisateur (avec ou sans @)
+# ou lien du profil (https://www.instagram.com/nom_du_compte/).
+comptes:
+  # - exemple_compte_psy
+  # - https://www.instagram.com/autre_compte/
+
+# Hashtags à surveiller (sans le #).
+hashtags:
+  # - psychologie
+  # - santementale
+
+# Ne garder que les publications des X derniers jours.
+jours: 7
+
+# Nombre maximum de publications récupérées par compte / par hashtag.
+posts_par_source: 12
+
+# Nombre de publications mises en avant dans le rapport Telegram.
+top_n: 8
+
+# Plafond de dépense Apify par exécution, en dollars.
+# Apify s'arrête automatiquement si ce montant est atteint.
+budget_max_usd: 1.0

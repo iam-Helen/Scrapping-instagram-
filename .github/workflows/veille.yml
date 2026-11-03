@@ -1,0 +1,36 @@
+name: Veille Instagram
+
+on:
+  schedule:
+    # Chaque lundi à 7h UTC (8h ou 9h à Paris selon l'heure d'été).
+    - cron: "17 7 * * 1"
+  workflow_dispatch: {}  # bouton « Run workflow » pour lancer à la main
+
+permissions:
+  contents: read
+
+jobs:
+  veille:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Lancer la veille et envoyer le rapport
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python veille.py
+      - name: Garder les exports (JSON + CSV) 30 jours
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: veille-${{ github.run_number }}
+          path: sorties/
+          retention-days: 30
+          if-no-files-found: ignore
