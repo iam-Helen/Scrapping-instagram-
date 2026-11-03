@@ -315,8 +315,24 @@ def construire_rapport(a: Analyse, cfg: Config) -> list[str]:
         tags = " ".join(f"#{html.escape(t)}" for t, _ in a.hashtags_gagnants)
         sections.append("🏷️ <b>Хештеги лучших публикаций</b>\n" + tags)
 
-    messages, courant = [], ""
+    return regrouper(sections)
+
+
+def regrouper(sections: list[str]) -> list[str]:
+    """Склеивает разделы в сообщения не длиннее лимита Telegram."""
+    morceaux: list[str] = []
     for s in sections:
+        while len(s) > LIMITE_MESSAGE_TELEGRAM:  # слишком длинный раздел режем по строкам
+            coupe = s.rfind("\n", 0, LIMITE_MESSAGE_TELEGRAM)
+            if coupe <= 0:
+                coupe = LIMITE_MESSAGE_TELEGRAM
+            morceaux.append(s[:coupe])
+            s = s[coupe:].lstrip("\n")
+        if s:
+            morceaux.append(s)
+
+    messages, courant = [], ""
+    for s in morceaux:
         if courant and len(courant) + len(s) + 2 > LIMITE_MESSAGE_TELEGRAM:
             messages.append(courant)
             courant = s
@@ -325,6 +341,11 @@ def construire_rapport(a: Analyse, cfg: Config) -> list[str]:
     if courant:
         messages.append(courant)
     return messages
+
+
+def messages_analyse_ia(texte: str) -> list[str]:
+    paragraphes = [html.escape(p.strip(), quote=False) for p in texte.split("\n\n") if p.strip()]
+    return regrouper(["🧠 <b>Разбор от ИИ</b>"] + paragraphes)
 
 
 def envoyer_telegram(messages: list[str], bot_token: str, chat_id: str) -> None:
@@ -372,6 +393,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--config", default="config.yaml")
     ap.add_argument("--dry-run", action="store_true", help="показать отчёт, не отправляя его")
     ap.add_argument("--fichier", help="JSON-файл с результатами Apify для анализа (без запроса к Apify)")
+    ap.add_argument("--sans-ia", action="store_true", help="не делать ИИ-анализ")
     ap.add_argument("--sorties", default="sorties", help="папка для выгрузок JSON/CSV")
     args = ap.parse_args(argv)
 
@@ -393,7 +415,15 @@ def main(argv: list[str] | None = None) -> int:
 
     pubs = convertir(items)
     sauvegarder(items, pubs, Path(args.sorties))
-    messages = construire_rapport(analyser(pubs, cfg.top_n), cfg)
+    analyse = analyser(pubs, cfg.top_n)
+    messages = construire_rapport(analyse, cfg)
+
+    if not args.sans_ia:
+        from analyse_ia import analyser_avec_ia
+
+        texte_ia = analyser_avec_ia((analyse.surperformances + analyse.top)[:10])
+        if texte_ia:
+            messages += messages_analyse_ia(texte_ia)
 
     if args.dry_run:
         print("\n\n──────── следующее сообщение ────────\n\n".join(messages))

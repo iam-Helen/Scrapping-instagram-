@@ -100,3 +100,49 @@ def test_main_avec_fichier(tmp_path, capsys):
     assert code == 0
     assert "Мониторинг Instagram" in capsys.readouterr().out
     assert list((tmp_path / "s").glob("*.csv"))
+
+
+def test_messages_ia_echappes_et_coupes():
+    texte = "Раздел <1> & тест\n\n" + "\n".join("строка " + "я" * 80 for _ in range(120))
+    msgs = veille.messages_analyse_ia(texte)
+    assert msgs[0].startswith("🧠 <b>Разбор от ИИ</b>")
+    assert "&lt;1&gt; &amp;" in msgs[0]
+    assert len(msgs) > 1 and all(len(m) <= veille.LIMITE_MESSAGE_TELEGRAM for m in msgs)
+
+
+def test_ia_sautee_sans_cle(monkeypatch):
+    import analyse_ia
+
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    pubs = veille.convertir([item("u1", "psy", 5)])
+    assert analyse_ia.analyser_avec_ia(pubs) is None
+
+
+def test_ia_appel_et_prompt(monkeypatch):
+    import types
+
+    import anthropic
+
+    import analyse_ia
+
+    capture = {}
+
+    class FauxMessages:
+        def create(self, **kw):
+            capture.update(kw)
+            return types.SimpleNamespace(
+                stop_reason="end_turn",
+                content=[types.SimpleNamespace(type="text", text="Разбор")],
+                usage=types.SimpleNamespace(input_tokens=10, output_tokens=5),
+            )
+
+    class FauxClient:
+        def __init__(self, *a, **k):
+            self.beta = types.SimpleNamespace(messages=FauxMessages())
+
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test")
+    monkeypatch.setattr(anthropic, "Anthropic", FauxClient)
+    pubs = veille.convertir([item("u1", "psy", 5, caption="Хук недели")])
+    assert analyse_ia.analyser_avec_ia(pubs) == "Разбор"
+    assert capture["model"] == "claude-opus-5-5"
+    assert "Хук недели" in capture["messages"][0]["content"]
