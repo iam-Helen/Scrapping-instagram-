@@ -1,18 +1,18 @@
-"""Veille Instagram : récupère les publications d'une niche via Apify,
-repère celles qui performent le mieux et envoie un rapport sur Telegram.
+"""Мониторинг Instagram: собирает публикации ниши через Apify,
+находит самые успешные и отправляет отчёт в Telegram.
 
-Aucun compte Instagram n'est utilisé : c'est Apify qui récupère les
-données publiques avec sa propre infrastructure.
+Аккаунт Instagram не используется: публичные данные собирает Apify
+на своей инфраструктуре.
 
-Utilisation :
-    python veille.py                     # exécution normale (Apify + Telegram)
-    python veille.py --dry-run           # affiche le rapport au lieu de l'envoyer
-    python veille.py --fichier data.json # utilise des données locales (gratuit)
+Использование:
+    python veille.py                     # обычный запуск (Apify + Telegram)
+    python veille.py --dry-run           # показать отчёт вместо отправки
+    python veille.py --fichier data.json # анализ локальных данных (бесплатно)
 
-Variables d'environnement :
-    APIFY_TOKEN         clé d'API Apify
-    TELEGRAM_BOT_TOKEN  jeton du bot (donné par @BotFather)
-    TELEGRAM_CHAT_ID    identifiant de la conversation (voir telegram_chat_id.py)
+Переменные окружения:
+    APIFY_TOKEN         API-ключ Apify
+    TELEGRAM_BOT_TOKEN  токен бота (выдаёт @BotFather)
+    TELEGRAM_CHAT_ID    номер чата (см. telegram_chat_id.py)
 """
 
 from __future__ import annotations
@@ -39,7 +39,7 @@ PRIX_PAR_RESULTAT_USD = 0.0027  # tarif du plan gratuit Apify (nov. 2026)
 SEUIL_SURPERFORMANCE = 1.5  # x fois la médiane du compte
 LIMITE_MESSAGE_TELEGRAM = 4000  # Telegram coupe à 4096 caractères
 
-FORMATS = {"Video": "Reel", "Sidecar": "Carrousel", "Image": "Photo"}
+FORMATS = {"Video": "Reels", "Sidecar": "Карусель", "Image": "Фото"}
 
 _RESERVES = {"p", "reel", "reels", "explore", "stories", "tv"}
 
@@ -65,13 +65,13 @@ def normaliser_compte(valeur: str) -> str:
         nom = m.group(1)
         if nom.lower() in _RESERVES:
             raise ValueError(
-                f"« {valeur} » est un lien de publication, pas un profil. "
-                "Mets plutôt le nom du compte qui l'a publiée."
+                f"«{valeur}» — это ссылка на публикацию, а не на профиль. "
+                "Укажи вместо неё имя аккаунта, который её опубликовал."
             )
         return nom.lower()
     nom = v.lstrip("@")
     if not re.fullmatch(r"[A-Za-z0-9._]{1,30}", nom):
-        raise ValueError(f"Nom de compte invalide : « {valeur} »")
+        raise ValueError(f"Неверное имя аккаунта: «{valeur}»")
     return nom.lower()
 
 
@@ -88,7 +88,7 @@ def charger_config(chemin: str | Path) -> Config:
         budget_max_usd=float(brut.get("budget_max_usd", 1.0)),
     )
     if not cfg.comptes and not cfg.hashtags:
-        raise ValueError("config.yaml : ajoute au moins un compte ou un hashtag.")
+        raise ValueError("config.yaml: добавь хотя бы один аккаунт или хештег.")
     return cfg
 
 
@@ -122,11 +122,11 @@ def recuperer_publications(cfg: Config, token: str) -> list[dict]:
         max_total_charge_usd=Decimal(str(cfg.budget_max_usd)),
     )
     if run is None:
-        raise RuntimeError("Apify n'a renvoyé aucune exécution.")
+        raise RuntimeError("Apify не вернул ни одного запуска.")
     statut = str(getattr(run.status, "value", run.status))
     if statut != "SUCCEEDED":
         raise RuntimeError(
-            f"L'exécution Apify a échoué (statut {statut}) : {run.status_message or 'sans détail'}"
+            f"Запуск Apify завершился ошибкой (статус {statut}): {run.status_message or 'без подробностей'}"
         )
     return list(client.dataset(run.default_dataset_id).iterate_items())
 
@@ -174,7 +174,7 @@ def convertir(items: list[dict]) -> list[Publication]:
         if it.get("error") or not it.get("url"):
             continue
         type_ = it.get("type") or ""
-        fmt = "Reel" if it.get("productType") == "clips" else FORMATS.get(type_, type_ or "?")
+        fmt = "Reels" if it.get("productType") == "clips" else FORMATS.get(type_, type_ or "?")
         vues = it.get("videoPlayCount") or it.get("videoViewCount")
         pubs[it["url"]] = Publication(
             url=it["url"],
@@ -266,7 +266,7 @@ def _accroche(legende: str, longueur: int = 140) -> str:
     premiere = legende.split("\n", 1)[0].strip() or legende.strip()
     if len(premiere) > longueur:
         premiere = premiere[: longueur - 1].rstrip() + "…"
-    return html.escape(premiere, quote=False) if premiere else "<i>(sans légende)</i>"
+    return html.escape(premiere, quote=False) if premiere else "<i>(без подписи)</i>"
 
 
 def _bloc(p: Publication, rang: int) -> str:
@@ -274,46 +274,46 @@ def _bloc(p: Publication, rang: int) -> str:
     if p.vues:
         stats += f" · ▶️ {_nombre(p.vues)}"
     if p.ratio and p.ratio >= SEUIL_SURPERFORMANCE:
-        stats += f" · <b>x{p.ratio:.1f}</b> vs habituel"
-    date = f" · {p.date:%d/%m}" if p.date else ""
+        stats += f" · <b>x{p.ratio:.1f}</b> от обычного"
+    date = f" · {p.date:%d.%m}" if p.date else ""
     return (
         f"{rang}. <b>@{html.escape(p.compte)}</b> · {p.format}{date}\n"
         f"   {stats}\n"
         f"   « {_accroche(p.legende)} »\n"
-        f"   <a href=\"{html.escape(p.url, quote=True)}\">Voir la publication</a>"
+        f"   <a href=\"{html.escape(p.url, quote=True)}\">Открыть публикацию</a>"
     )
 
 
 def construire_rapport(a: Analyse, cfg: Config) -> list[str]:
     """Renvoie le rapport découpé en messages de moins de 4000 caractères."""
     sections: list[str] = [
-        f"📊 <b>Veille Instagram</b> — {datetime.now(timezone.utc):%d/%m/%Y}\n"
-        f"{a.total} publications analysées · {a.nb_comptes} comptes · {cfg.jours} derniers jours"
+        f"📊 <b>Мониторинг Instagram</b> — {datetime.now(timezone.utc):%d.%m.%Y}\n"
+        f"Публикаций: {a.total} · аккаунтов: {a.nb_comptes} · за последние {cfg.jours} дн."
     ]
     if a.total == 0:
-        sections.append("Aucune nouvelle publication sur la période.")
+        sections.append("За этот период новых публикаций нет.")
         return sections
 
     if a.surperformances:
         sections.append(
-            "🔥 <b>Contenus qui percent</b>\n<i>Bien au-dessus des performances habituelles du compte</i>"
+            "🔥 <b>Публикации, которые «выстреливают»</b>\n<i>Намного лучше обычных результатов аккаунта</i>"
         )
         sections += [_bloc(p, i) for i, p in enumerate(a.surperformances, 1)]
 
     if a.top:
-        sections.append("🏆 <b>Plus d'interactions</b>")
+        sections.append("🏆 <b>Больше всего реакций</b>")
         sections += [_bloc(p, i) for i, p in enumerate(a.top, 1)]
 
     if a.formats:
         lignes = [
-            f"• {html.escape(f)} : {_nombre(moy)} interactions en moyenne ({n} publ.)"
+            f"• {html.escape(f)}: в среднем {_nombre(moy)} реакций (публикаций: {n})"
             for f, n, moy in a.formats
         ]
-        sections.append("🎬 <b>Formats</b>\n" + "\n".join(lignes))
+        sections.append("🎬 <b>Форматы</b>\n" + "\n".join(lignes))
 
     if a.hashtags_gagnants:
         tags = " ".join(f"#{html.escape(t)}" for t, _ in a.hashtags_gagnants)
-        sections.append("🏷️ <b>Hashtags des meilleurs contenus</b>\n" + tags)
+        sections.append("🏷️ <b>Хештеги лучших публикаций</b>\n" + tags)
 
     messages, courant = [], ""
     for s in sections:
@@ -342,7 +342,7 @@ def envoyer_telegram(messages: list[str], bot_token: str, chat_id: str) -> None:
         )
         if not r.ok:
             # On n'affiche pas l'URL : elle contient le jeton du bot.
-            raise RuntimeError(f"Telegram a refusé le message ({r.status_code}) : {r.text[:300]}")
+            raise RuntimeError(f"Telegram отклонил сообщение ({r.status_code}): {r.text[:300]}")
 
 
 # ─── Sauvegarde ───────────────────────────────────────────────────────────────
@@ -356,7 +356,7 @@ def sauvegarder(items: list[dict], pubs: list[Publication], dossier: Path) -> No
     )
     with open(dossier / f"publications_{horodatage}.csv", "w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f, delimiter=";")
-        w.writerow(["compte", "format", "date", "likes", "commentaires", "vues", "ratio", "url", "legende"])
+        w.writerow(["аккаунт", "формат", "дата", "лайки", "комментарии", "просмотры", "x от обычного", "ссылка", "подпись"])
         for p in sorted(pubs, key=lambda p: p.interactions, reverse=True):
             w.writerow([
                 p.compte, p.format, p.date.isoformat() if p.date else "", p.likes,
@@ -370,9 +370,9 @@ def sauvegarder(items: list[dict], pubs: list[Publication], dossier: Path) -> No
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--config", default="config.yaml")
-    ap.add_argument("--dry-run", action="store_true", help="affiche le rapport sans l'envoyer")
-    ap.add_argument("--fichier", help="fichier JSON de résultats Apify à analyser (pas d'appel Apify)")
-    ap.add_argument("--sorties", default="sorties", help="dossier des exports JSON/CSV")
+    ap.add_argument("--dry-run", action="store_true", help="показать отчёт, не отправляя его")
+    ap.add_argument("--fichier", help="JSON-файл с результатами Apify для анализа (без запроса к Apify)")
+    ap.add_argument("--sorties", default="sorties", help="папка для выгрузок JSON/CSV")
     args = ap.parse_args(argv)
 
     cfg = charger_config(args.config)
@@ -382,29 +382,29 @@ def main(argv: list[str] | None = None) -> int:
     else:
         token = os.environ.get("APIFY_TOKEN")
         if not token:
-            print("Erreur : la variable APIFY_TOKEN n'est pas définie.", file=sys.stderr)
+            print("Ошибка: переменная APIFY_TOKEN не задана.", file=sys.stderr)
             return 1
         print(
-            f"Sources : {len(cfg.comptes)} comptes, {len(cfg.hashtags)} hashtags. "
-            f"Coût maximum estimé : {estimation_cout(cfg):.2f} $ (plafond {cfg.budget_max_usd:.2f} $)."
+            f"Источники: аккаунтов {len(cfg.comptes)}, хештегов {len(cfg.hashtags)}. "
+            f"Максимальная оценка стоимости: {estimation_cout(cfg):.2f} $ (лимит {cfg.budget_max_usd:.2f} $)."
         )
         items = recuperer_publications(cfg, token)
-        print(f"{len(items)} résultats reçus d'Apify.")
+        print(f"Получено результатов от Apify: {len(items)}.")
 
     pubs = convertir(items)
     sauvegarder(items, pubs, Path(args.sorties))
     messages = construire_rapport(analyser(pubs, cfg.top_n), cfg)
 
     if args.dry_run:
-        print("\n\n──────── message suivant ────────\n\n".join(messages))
+        print("\n\n──────── следующее сообщение ────────\n\n".join(messages))
         return 0
 
     bot, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
     if not bot or not chat:
-        print("Erreur : TELEGRAM_BOT_TOKEN et TELEGRAM_CHAT_ID doivent être définis.", file=sys.stderr)
+        print("Ошибка: нужно задать TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID.", file=sys.stderr)
         return 1
     envoyer_telegram(messages, bot, chat)
-    print(f"Rapport envoyé sur Telegram ({len(messages)} message(s)).")
+    print(f"Отчёт отправлен в Telegram (сообщений: {len(messages)}).")
     return 0
 
 

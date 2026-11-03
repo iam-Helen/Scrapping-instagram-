@@ -1,28 +1,28 @@
 # ─────────────────────────────────────────────────────────────
-#  Configuration de la veille Instagram
-#  Modifie seulement ce fichier pour changer ce qui est surveillé.
+#  Настройки мониторинга Instagram
+#  Чтобы изменить, что отслеживается, редактируй только этот файл.
 # ─────────────────────────────────────────────────────────────
 
-# Comptes à surveiller : nom d'utilisateur (avec ou sans @)
-# ou lien du profil (https://www.instagram.com/nom_du_compte/).
+# Аккаунты для мониторинга: имя пользователя (с @ или без)
+# или ссылка на профиль (https://www.instagram.com/имя_аккаунта/).
 comptes:
-  # - exemple_compte_psy
-  # - https://www.instagram.com/autre_compte/
+  # - primer_akkaunta
+  # - https://www.instagram.com/drugoy_akkaunt/
 
-# Hashtags à surveiller (sans le #).
+# Хештеги для мониторинга (без #).
 hashtags:
-  # - psychologie
-  # - santementale
+  # - психология
+  # - psychology
 
-# Ne garder que les publications des X derniers jours.
+# Учитывать только публикации за последние X дней.
 jours: 7
 
-# Nombre maximum de publications récupérées par compte / par hashtag.
+# Максимальное число публикаций с одного аккаунта / хештега.
 posts_par_source: 12
 
-# Nombre de publications mises en avant dans le rapport Telegram.
+# Сколько публикаций показывать в отчёте Telegram.
 top_n: 8
 
-# Plafond de dépense Apify par exécution, en dollars.
-# Apify s'arrête automatiquement si ce montant est atteint.
+# Лимит расходов Apify за один запуск, в долларах.
+# Apify автоматически останавливается, если сумма достигнута.
 budget_max_usd: 1.0

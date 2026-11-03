@@ -36,7 +36,7 @@ def test_normaliser_compte(entree, attendu):
 
 
 def test_lien_de_publication_refuse():
-    with pytest.raises(ValueError, match="publication"):
+    with pytest.raises(ValueError, match="публикацию"):
         veille.normaliser_compte("https://www.instagram.com/reel/ABC123/")
 
 
@@ -69,10 +69,10 @@ def test_analyse_detecte_surperformance():
     assert len(pubs) == 5
     a = veille.analyser(pubs, top_n=3)
     assert a.surperformances[0].url == "u4"
-    assert a.surperformances[0].format == "Reel"
+    assert a.surperformances[0].format == "Reels"
     assert a.surperformances[0].ratio == pytest.approx(1050 / 105)
     assert "u4" not in {p.url for p in a.top}
-    assert a.formats[0][0] == "Reel"
+    assert a.formats[0][0] == "Reels"
 
 
 def test_rapport_echappe_html_et_respecte_limite():
@@ -98,5 +98,5 @@ def test_main_avec_fichier(tmp_path, capsys):
         ["--config", str(cfg), "--fichier", str(data), "--dry-run", "--sorties", str(tmp_path / "s")]
     )
     assert code == 0
-    assert "Veille Instagram" in capsys.readouterr().out
+    assert "Мониторинг Instagram" in capsys.readouterr().out
     assert list((tmp_path / "s").glob("*.csv"))
