@@ -32,7 +32,11 @@ def recuperer(compte: str, limite: int, token: str) -> list[dict]:
     run = client.actor(ACTOR_ID).call(
         run_input={
             "resultsType": "posts",
-            "directUrls": [f"https://www.instagram.com/{compte}/"],
+            "directUrls": [
+                f"https://www.instagram.com/explore/tags/{c.lstrip('#')}/" if c.startswith("#")
+                else f"https://www.instagram.com/{normaliser_compte(c)}/"
+                for c in compte.split(",") if c.strip()
+            ],
             "resultsLimit": limite,
         },
         max_total_charge_usd=Decimal("0.5"),
@@ -115,7 +119,7 @@ def main() -> int:
     if not token:
         print("Ошибка: переменная APIFY_TOKEN не задана.", file=sys.stderr)
         return 1
-    compte = normaliser_compte(sys.argv[1])
+    compte = ",".join(c.strip() for c in sys.argv[1].split(",") if c.strip())
     limite = int(sys.argv[2]) if len(sys.argv) > 2 else 60
     items = recuperer(compte, limite, token)
     OUT.mkdir(parents=True, exist_ok=True)
@@ -124,7 +128,7 @@ def main() -> int:
     sauvegarder(items, pubs, OUT)
     planches(items)
     derniers_complets(items)
-    print(f"@{compte}: публикаций {len(pubs)}")
+    print(f"{compte}: публикаций {len(pubs)}")
     return 0
 
 
