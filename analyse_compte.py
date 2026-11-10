@@ -78,6 +78,35 @@ def planches(items: list[dict]) -> None:
         sheet.save(OUT / f"top_{k // 6 + 1}.jpg", quality=85)
 
 
+def derniers_complets(items: list[dict], n: int = 6) -> None:
+    """Все слайды n последних публикаций: чтобы разобрать их целиком."""
+    recents = sorted(items, key=lambda i: i.get("timestamp") or "", reverse=True)[:n]
+    for k, it in enumerate(recents, 1):
+        urls = [c.get("displayUrl") for c in (it.get("childPosts") or []) if c.get("displayUrl")]
+        if not urls:
+            urls = [it.get("displayUrl")] if it.get("displayUrl") else []
+        ims = []
+        for u in urls[:10]:
+            try:
+                r = requests.get(u, timeout=30)
+                r.raise_for_status()
+                im = Image.open(io.BytesIO(r.content)).convert("RGB")
+                im.thumbnail((360, 640))
+                ims.append(im)
+            except Exception as e:  # noqa: BLE001
+                print(f"слайд не скачан: {e}")
+        if not ims:
+            continue
+        cols = min(5, len(ims))
+        rows = (len(ims) + cols - 1) // cols
+        h = max(i.height for i in ims)
+        sheet = Image.new("RGB", (cols * 360, rows * h), "white")
+        for j, im in enumerate(ims):
+            sheet.paste(im, ((j % cols) * 360, (j // cols) * h))
+        date = (it.get("timestamp") or "")[:10]
+        sheet.save(OUT / f"recent_{k}_{date}.jpg", quality=85)
+
+
 def main() -> int:
     if len(sys.argv) < 2:
         print(__doc__)
@@ -94,6 +123,7 @@ def main() -> int:
     calculer_ratios(pubs)
     sauvegarder(items, pubs, OUT)
     planches(items)
+    derniers_complets(items)
     print(f"@{compte}: публикаций {len(pubs)}")
     return 0
 
