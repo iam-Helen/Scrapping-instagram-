@@ -33,7 +33,8 @@ def recuperer(compte: str, limite: int, token: str) -> list[dict]:
         run_input={
             "resultsType": "posts",
             "directUrls": [
-                f"https://www.instagram.com/explore/tags/{c.lstrip('#')}/" if c.startswith("#")
+                c.split("?")[0] if c.startswith("http") and ("/p/" in c or "/reel/" in c)
+                else f"https://www.instagram.com/explore/tags/{c.lstrip('#')}/" if c.startswith("#")
                 else f"https://www.instagram.com/{normaliser_compte(c)}/"
                 for c in compte.split(",") if c.strip()
             ],
