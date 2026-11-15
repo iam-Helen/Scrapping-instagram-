@@ -21,7 +21,7 @@ from PIL import Image, ImageDraw
 from veille import ACTOR_ID, calculer_ratios, convertir, normaliser_compte, sauvegarder
 
 OUT = Path("sorties/compte")
-TOP = 24
+TOP = 36
 TW = 300
 
 
@@ -29,6 +29,17 @@ def recuperer(compte: str, limite: int, token: str) -> list[dict]:
     from apify_client import ApifyClient
 
     client = ApifyClient(token)
+    if compte.startswith("reels:"):
+        # только рилсы профиля, с просмотрами (отдельный актор Apify)
+        noms = [normaliser_compte(c) for c in compte[6:].split(",") if c.strip()]
+        run = client.actor("apify/instagram-reel-scraper").call(
+            run_input={"username": noms, "resultsLimit": limite, "skipTrialReels": True},
+            max_total_charge_usd=Decimal("0.5"),
+        )
+        statut = str(getattr(run.status, "value", run.status))
+        if statut != "SUCCEEDED":
+            raise RuntimeError(f"Apify: статус {statut}: {run.status_message}")
+        return list(client.dataset(run.default_dataset_id).iterate_items())
     run = client.actor(ACTOR_ID).call(
         run_input={
             "resultsType": "posts",
@@ -51,7 +62,7 @@ def recuperer(compte: str, limite: int, token: str) -> list[dict]:
 def planches(items: list[dict]) -> None:
     """Обложки топ-публикаций: ссылки Instagram живут несколько часов, качаем сразу."""
     par_url = {it.get("url"): it for it in items}
-    pubs = sorted(convertir(items), key=lambda p: p.interactions, reverse=True)[:TOP]
+    pubs = sorted(convertir(items), key=lambda p: (p.vues or 0, p.interactions), reverse=True)[:TOP]
     tuiles = []
     for rang, p in enumerate(pubs, 1):
         it = par_url.get(p.url, {})
