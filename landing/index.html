@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Рабочая тетрадь психолога Елены Мырленко: как перестать накручивать себя, проверять телефон и разрушать отношения тревогой.">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Тревога в отношениях</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&display=swap">
+<style>
+/* Layout: one reading column with full-width colour bands; hero = promise + live preview of the workbook; price card repeats at the end */
+:root {
+  --bg: #EEF3F8;
+  --surface: #FFFFFF;
+  --sunk: #E3EBF4;
+  --ink: #1E2A3A;
+  --muted: #5F6D80;
+  --line: #D5DFEA;
+  --accent: #4A78AD;
+  --accent-deep: #2F5A8C;
+  --accent-soft: #DCE7F3;
+  --warm: #E0956F;
+  --warm-ink: #B9643E;
+  --warm-soft: #FBE9DF;
+  --calm: #9CC0E4;
+  --on-accent: #FFFFFF;
+  --display: "Literata", Georgia, "Times New Roman", serif;
+  --body: "Golos Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111823; --surface: #18212E; --sunk: #202B3A; --ink: #E3EAF3; --muted: #96A4B7; --line: #2A3647;
+    --accent: #85AEDD; --accent-deep: #A9C6E8; --accent-soft: #1E2D42; --warm: #EBA683; --warm-ink: #EBA683; --warm-soft: #3A2A22; --calm: #5F86B3; --on-accent: #111823; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111823; --surface: #18212E; --sunk: #202B3A; --ink: #E3EAF3; --muted: #96A4B7; --line: #2A3647;
+  --accent: #85AEDD; --accent-deep: #A9C6E8; --accent-soft: #1E2D42; --warm: #EBA683; --warm-ink: #EBA683; --warm-soft: #3A2A22; --calm: #5F86B3; --on-accent: #111823; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 17px/1.65 var(--body); }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.band { padding-block: clamp(48px, 8vw, 88px); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.band.white { background: var(--surface); }
+.band.soft { background: var(--accent-soft); }
+.in { max-width: 1040px; margin: 0 auto; }
+.narrow { max-width: 720px; margin: 0 auto; }
+.eyebrow { font-size: 12.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--warm-ink); font-weight: 600; }
+h1, h2, h3 { font-family: var(--display); font-weight: 500; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(40px, 7.4vw, 70px); line-height: 1.04; letter-spacing: -.01em; }
+h2 { font-size: clamp(28px, 4.4vw, 40px); line-height: 1.15; margin-top: 10px; }
+h3 { font-size: 21px; line-height: 1.3; }
+p { margin: 0; }
+.stack { display: grid; gap: 16px; }
+.lead { font-size: clamp(18px, 2.3vw, 21px); color: var(--muted); line-height: 1.55; }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; border-radius: 14px; padding: 16px 26px; font: 600 17px var(--body); border: 1.5px solid var(--accent); cursor: pointer; }
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.primary:hover { background: var(--accent-deep); border-color: var(--accent-deep); }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.ghost:hover { background: var(--accent-soft); }
+
+/* header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); padding-block: 12px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.top .in { display: flex; align-items: center; gap: 16px; }
+.logo { font: 500 17px var(--display); }
+.logo small { display: block; font: 400 12px var(--body); color: var(--muted); letter-spacing: .04em; }
+.top .btn { margin-left: auto; padding: 10px 18px; font-size: 15px; border-radius: 11px; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+.hero-text { display: grid; gap: 22px; min-width: 0; }
+.hero h1 em { font-style: italic; color: var(--accent); }
+.price-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+.price-now { font: 500 40px/1 var(--display); font-variant-numeric: tabular-nums; }
+.price-old { font-size: 20px; color: var(--muted); text-decoration: line-through; text-decoration-color: var(--warm); }
+.price-tag { font-size: 13.5px; font-weight: 600; color: var(--warm-ink); background: var(--warm-soft); border-radius: 999px; padding: 4px 12px; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.fine { font-size: 14px; color: var(--muted); }
+
+/* the workbook preview */
+.device { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; box-shadow: 0 30px 60px -30px rgba(30,42,58,.35); overflow: hidden; min-width: 0; }
+.dev-bar { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.dev-bar b { font: 500 14px var(--display); }
+.dev-bar small { display: block; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.dev-prog { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.dev-prog span { width: 70px; height: 6px; border-radius: 3px; background: var(--sunk); overflow: hidden; }
+.dev-prog i { display: block; height: 100%; width: 38%; background: var(--accent); }
+.dev-body { padding: 18px; display: grid; gap: 14px; }
+.chat { display: grid; gap: 6px; }
+.bubble { justify-self: end; background: var(--accent); color: var(--on-accent); border-radius: 16px 16px 4px 16px; padding: 9px 14px; font-size: 14.5px; max-width: 85%; }
+.read { justify-self: end; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.thought { font: italic 400 15px/1.5 var(--display); color: var(--muted); border-left: 2px solid var(--warm); padding-left: 12px; }
+.mini { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 10px; }
+.mini label { font-weight: 500; font-size: 14.5px; }
+.scale { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--muted); }
+.scale input { flex: 1; min-width: 0; appearance: none; height: 6px; border-radius: 3px; background: linear-gradient(90deg, var(--calm), var(--warm)); cursor: pointer; }
+.scale input::-webkit-slider-thumb { appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--surface); border: 2px solid var(--warm); box-shadow: 0 1px 3px rgba(30,42,58,.25); }
+.scale input::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--surface); border: 2px solid var(--warm); }
+.scale output { min-width: 3em; text-align: right; font-weight: 600; color: var(--warm-ink); font-variant-numeric: tabular-nums; }
+.camera { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.camera div { border-radius: 10px; padding: 9px 11px; font-size: 13px; line-height: 1.4; }
+.camera .fact { background: var(--accent-soft); }
+.camera .story { background: var(--warm-soft); }
+.camera small { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.dev-cap { font-size: 13px; color: var(--muted); text-align: center; margin-top: 12px; }
+
+/* tired */
+.tired { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 56px); align-items: start; }
+.tired-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.tired-list li { font: italic 400 clamp(19px, 2.4vw, 23px)/1.45 var(--display); color: var(--accent); padding: 6px 0; border-bottom: 1px solid var(--line); }
+.ok { background: var(--accent-soft); border-radius: 18px; padding: 22px 24px; font-size: 17px; }
+.ok b { font: 500 21px/1.35 var(--display); display: block; margin-bottom: 6px; }
+
+/* pains */
+.pains { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 36px; }
+.pains li { padding: 16px 0 16px 34px; border-top: 1px solid var(--line); position: relative; font-size: 16.5px; line-height: 1.5; min-width: 0; }
+.pains li::before { content: ""; position: absolute; left: 2px; top: 22px; width: 13px; height: 13px; border-radius: 50%; background: var(--warm-soft); border: 2px solid var(--warm); }
+.after { margin-top: 26px; font: 500 20px/1.4 var(--display); }
+
+/* blocks */
+.blocks { display: grid; gap: 14px; margin-top: 32px; }
+.blk { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: clamp(18px, 3vw, 26px); }
+.blk-n { width: 64px; height: 64px; border-radius: 18px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font: 500 30px var(--display); }
+.blk-body { display: grid; gap: 8px; min-width: 0; }
+.blk-kicker { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.help { font: 400 17.5px/1.45 var(--display); }
+.help i { font: 600 12px var(--body); font-style: normal; letter-spacing: .07em; text-transform: uppercase; color: var(--warm-ink); margin-right: 6px; }
+.blk ul { margin: 4px 0 0; padding-left: 18px; color: var(--muted); font-size: 15.5px; display: grid; gap: 4px; }
+.blk li::marker { color: var(--accent); }
+
+/* tools */
+.tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 28px; }
+.tool { background: var(--surface); border-radius: 16px; padding: 16px 18px; display: grid; gap: 4px; }
+.tool b { font: 500 17px/1.3 var(--display); color: var(--accent-deep); }
+.tool span { font-size: 14.5px; color: var(--muted); line-height: 1.45; }
+
+/* how */
+.how { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
+.how div { border-top: 3px solid var(--calm); padding-top: 14px; display: grid; gap: 6px; min-width: 0; }
+.how b { font: 500 18px var(--display); }
+.how p { font-size: 15px; color: var(--muted); line-height: 1.5; }
+
+/* author */
+.author { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: clamp(24px, 5vw, 56px); align-items: center; }
+.photo { width: 100%; max-width: 260px; aspect-ratio: 4 / 5; border-radius: 26px; background: linear-gradient(160deg, var(--accent-soft), var(--warm-soft)); border: 1px solid var(--line); display: grid; place-items: center; align-content: center; gap: 6px; }
+.photo span { font: 500 72px var(--display); color: var(--accent); }
+.photo small { font-size: 13px; color: var(--muted); }
+.sign { font: italic 400 19px var(--display); color: var(--accent); }
+
+/* price */
+.offer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: var(--surface); border: 1px solid var(--line); border-radius: 26px; overflow: hidden; margin-top: 30px; }
+.offer-main { padding: clamp(22px, 4vw, 36px); display: grid; gap: 18px; align-content: start; }
+.offer-side { background: var(--bg); padding: clamp(22px, 4vw, 36px); display: grid; gap: 12px; align-content: start; border-left: 1px solid var(--line); }
+.offer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.offer li { position: relative; padding-left: 28px; font-size: 16px; }
+.offer li::before { content: ""; position: absolute; left: 2px; top: 6px; width: 14px; height: 8px; border: 2px solid var(--accent); border-top: 0; border-right: 0; transform: rotate(-45deg); }
+.cur { display: grid; gap: 10px; }
+.cur .btn { width: 100%; }
+.timer { display: flex; gap: 8px; }
+.timer div { background: var(--warm-soft); border-radius: 10px; padding: 6px 10px; text-align: center; min-width: 58px; }
+.timer b { display: block; font: 500 22px/1.1 var(--display); color: var(--warm-ink); font-variant-numeric: tabular-nums; }
+.timer small { font-size: 11px; color: var(--muted); }
+
+/* faq */
+.faq { display: grid; gap: 10px; margin-top: 28px; }
+.faq details { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 0 20px; }
+.faq summary { cursor: pointer; list-style: none; padding: 18px 30px 18px 0; font: 500 18px/1.35 var(--display); position: relative; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 0; top: 14px; font: 400 26px var(--body); color: var(--accent); }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { padding: 0 0 18px; color: var(--muted); font-size: 16px; }
+
+footer { padding-block: 32px 40px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+footer .in { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+
+.draft { background: var(--warm-soft); color: var(--ink); font-size: 13.5px; text-align: center; padding-block: 8px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+@media (max-width: 860px) {
+  .hero, .tired, .author, .offer { grid-template-columns: minmax(0, 1fr); }
+  .offer-side { border-left: 0; border-top: 1px solid var(--line); }
+  .how { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .photo { max-width: 200px; }
+}
+@media (max-width: 600px) {
+  .pains { grid-template-columns: minmax(0, 1fr); }
+  .how { grid-template-columns: minmax(0, 1fr); }
+  .blk { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .blk-n { width: 48px; height: 48px; font-size: 24px; border-radius: 14px; }
+  .top .logo small { display: none; }
+  .camera { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="draft">Черновик: тексты, фото и кнопки оплаты будут заменены</div>
+
+<header class="top">
+  <div class="in">
+    <div class="logo">Тревога в отношениях<small>рабочая тетрадь · Елена Мырленко</small></div>
+    <a class="btn primary" href="#price">Купить тетрадь</a>
+  </div>
+</header>
+
+<section class="band">
+  <div class="in hero">
+    <div class="hero-text">
+      <span class="eyebrow">Интерактивная рабочая тетрадь психолога</span>
+      <h1>Тревога <em>в отношениях</em></h1>
+      <p class="lead">Как перестать накручивать себя, проверять телефон и разрушать отношения тревогой. 5 блоков теории, самотест и упражнения, которые помогают прямо в момент, когда накрывает.</p>
+      <div class="price-line">
+        <span class="price-now">1 490 ₽</span>
+        <span class="price-old">1 990 ₽</span>
+        <span class="price-tag">цена первой недели</span>
+      </div>
+      <div class="cta-row">
+        <a class="btn primary" href="#price">Купить тетрадь</a>
+        <a class="btn ghost" href="#inside">Что внутри</a>
+      </div>
+      <p class="fine">Из-за границы: $27 картой иностранного банка. Ссылка на тетрадь придёт на почту сразу после оплаты.</p>
+    </div>
+
+    <div>
+      <div class="device" aria-label="Как выглядит тетрадь">
+        <div class="dev-bar">
+          <div><small>Блок 2 · Тренажёр</small><b>Что записала бы камера?</b></div>
+          <div class="dev-prog"><span><i></i></span>38%</div>
+        </div>
+        <div class="dev-body">
+          <div class="chat">
+            <div class="bubble">Как прошёл день? Позвонишь вечером?</div>
+            <div class="read">Прочитано 14:02 · ответа нет 3 ч</div>
+          </div>
+          <p class="thought">«Он отдаляется. Я ему надоела».</p>
+          <div class="camera">
+            <div class="fact"><small>Камера записала бы</small>Сообщение прочитано, ответа пока нет</div>
+            <div class="story"><small>Тревога додумала</small>Я ему больше не интересна</div>
+          </div>
+          <div class="mini">
+            <label for="anx">Насколько сильная тревога сейчас?</label>
+            <div class="scale"><span>0</span><input id="anx" type="range" min="0" max="10" value="7"><output id="anxOut">7/10</output></div>
+          </div>
+        </div>
+      </div>
+      <p class="dev-cap">Так выглядит упражнение внутри тетради. Ползунок можно подвигать.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band white">
+  <div class="in tired">
+    <div class="stack">
+      <span class="eyebrow">Если вы здесь</span>
+      <h2>Скорее всего, вы устали</h2>
+      <ul class="tired-list">
+        <li>Устали подстраиваться.</li>
+        <li>Устали бояться честных разговоров.</li>
+        <li>Устали ревновать.</li>
+        <li>Устали ссориться на ровном месте.</li>
+        <li>Устали сравнивать себя с другими.</li>
+        <li>Устали винить себя, если в отношениях что-то не так.</li>
+        <li>Устали бояться, что вас бросят.</li>
+      </ul>
+    </div>
+    <div class="ok">
+      <b>Сразу хочу сказать: с вами всё в порядке.</b>
+      Потребность в близости естественна для каждого человека. Просто когда-то ваша психика научилась быть настороже, чтобы не потерять важного человека. И её можно научить чувствовать себя спокойнее.
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="in">
+    <span class="eyebrow">Узнаёте себя?</span>
+    <h2>Это точно про вас, если вы</h2>
+    <ul class="pains">
+      <li>Настроение на весь день зависит от того, как прошло общение с партнёром.</li>
+      <li>Верите, что интерес к вам может пропасть в любой момент, и часто думаете, что могли надоесть.</li>
+      <li>Несколько часов без ответа, и вы чувствуете себя нелюбимой. А любой сигнал от партнёра приносит облегчение.</li>
+      <li>Ревнуете партнёра к друзьям, хобби, работе. Тревожно, когда ему хорошо без вас.</li>
+      <li>Специально ведёте себя холодно, чтобы не выглядеть более увлечённой. Не пишете первой, даже когда очень хочется.</li>
+      <li>Проверяете чувства партнёра мелкими провокациями.</li>
+      <li>Хотите поскорее понять, кто вы друг другу. Неопределённость почти невыносима.</li>
+      <li>Откладываете важные разговоры, чтобы не грузить партнёра.</li>
+    </ul>
+    <p class="after">Если вы узнали себя хотя бы в нескольких пунктах, эта тетрадь для вас.</p>
+  </div>
+</section>
+
+<section class="band white" id="inside">
+  <div class="in">
+    <span class="eyebrow">Программа</span>
+    <h2>5 блоков, примерно один в неделю</h2>
+    <div class="blocks">
+      <article class="blk">
+        <div class="blk-n">1</div>
+        <div class="blk-body">
+          <span class="blk-kicker">Блок 1</span>
+          <h3>Почему меня так накрывает</h3>
+          <p class="help"><i>Поможет</i>перестать думать, что с вами что-то не так, и понять, как устроена именно ваша тревога</p>
+          <ul>
+            <li>Узнаете, почему молчание партнёра ощущается как угроза и откуда это идёт</li>
+            <li>Пройдёте самотест и узнаете свой тип привязанности</li>
+            <li>Увидите, что запускает вашу тревогу и что вы делаете на автомате</li>
+            <li>Поймёте, какие потребности стоят за ревностью, обидой и злостью</li>
+          </ul>
+        </div>
+      </article>
+      <article class="blk">
+        <div class="blk-n">2</div>
+        <div class="blk-body">
+          <span class="blk-kicker">Блок 2</span>
+          <h3>Как мысли усиливают тревогу</h3>
+          <p class="help"><i>Поможет</i>не раскручивать одно сообщение до «меня скоро бросят»</p>
+          <ul>
+            <li>Научитесь ловить момент, когда факт превращается в тревожную историю</li>
+            <li>Будете отличать то, что произошло, от того, что вы додумали</li>
+            <li>Узнаете, откуда берутся самые болезненные мысли о себе: «я не нужна», «со мной что-то не так»</li>
+          </ul>
+        </div>
+      </article>
+      <article class="blk">
+        <div class="blk-n">3</div>
+        <div class="blk-body">
+          <span class="blk-kicker">Блок 3</span>
+          <h3>Почему я продолжаю делать то, что не помогает</h3>
+          <p class="help"><i>Поможет</i>перестать писать пятое сообщение подряд и проверять, был ли он в сети</p>
+          <ul>
+            <li>Поймёте, почему проверки успокаивают на пять минут, а потом делают только хуже</li>
+            <li>Узнаете, что такое протестное поведение, и научитесь замечать его у себя</li>
+            <li>Освоите двухминутную паузу, которая помогает пережить острый момент и не сорваться</li>
+          </ul>
+        </div>
+      </article>
+      <article class="blk">
+        <div class="blk-n">4</div>
+        <div class="blk-body">
+          <span class="blk-kicker">Блок 4</span>
+          <h3>Как выдерживать неопределённость</h3>
+          <p class="help"><i>Поможет</i>перестать жить в ожидании ответа и ставить свою жизнь на паузу</p>
+          <ul>
+            <li>Научитесь отличать, где нужен честный разговор, а где вы ждёте гарантий, которых никто не может дать</li>
+            <li>Поймёте, почему качели «то тепло, то холод» ощущаются как любовь</li>
+            <li>Вернёте себе планы, друзей и дела, даже пока в отношениях нет ясности</li>
+          </ul>
+        </div>
+      </article>
+      <article class="blk">
+        <div class="blk-n">5</div>
+        <div class="blk-body">
+          <span class="blk-kicker">Блок 5</span>
+          <h3>Как говорить о своих потребностях</h3>
+          <p class="help"><i>Поможет</i>говорить о том, что вам нужно, так, чтобы партнёр услышал, без сцен и проверок</p>
+          <ul>
+            <li>Научитесь превращать обиду и претензию в понятную просьбу</li>
+            <li>Подготовите реальный разговор с партнёром</li>
+            <li>Поймёте, когда дело в тревоге, а когда отношения вам просто не подходят</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band soft">
+  <div class="in">
+    <span class="eyebrow">А ещё внутри</span>
+    <h2>Инструменты, которые можно открыть в момент тревоги</h2>
+    <div class="tools">
+      <div class="tool"><b>Самотест на тип привязанности</b><span>С картой результата и объяснением, что он значит для вас</span></div>
+      <div class="tool"><b>Пауза перед действием</b><span>Две минуты дыхания вместо пятого сообщения подряд</span></div>
+      <div class="tool"><b>«Что записала бы камера?»</b><span>Тренажёр, который отделяет факты от тревожных догадок</span></div>
+      <div class="tool"><b>Айсберг эмоций</b><span>Что вы показываете и какая потребность под этим</span></div>
+      <div class="tool"><b>Круг влияния</b><span>На что вы правда можете повлиять, а что отпустить</span></div>
+      <div class="tool"><b>Конструктор просьбы</b><span>Собирает из обиды фразу, которую партнёр услышит</span></div>
+      <div class="tool"><b>История Ани</b><span>Сквозной пример через все блоки, чтобы узнавать себя</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="in">
+    <span class="eyebrow">Формат</span>
+    <h2>Как работать с тетрадью</h2>
+    <div class="how">
+      <div><b>В браузере</b><p>Открывается по ссылке на телефоне или компьютере. Ничего не нужно скачивать и печатать.</p></div>
+      <div><b>В своём темпе</b><p>Примерно один блок в неделю. Теория читается за 30–50 минут, упражнения можно растянуть на несколько дней.</p></div>
+      <div><b>Когда накрывает</b><p>Откройте «Паузу перед действием» или тренажёр «Что записала бы камера?».</p></div>
+      <div><b>Только для вас</b><p>Ответы хранятся только на вашем устройстве. Их можно скопировать себе или показать психологу.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band white">
+  <div class="in author">
+    <div class="photo" aria-label="Здесь будет фото"><span>Е</span><small>здесь будет фото</small></div>
+    <div class="stack">
+      <span class="eyebrow">Автор тетради</span>
+      <h2>Елена Мырленко</h2>
+      <p>Практический психолог и EMDR-терапевт. Работаю с тревогой в отношениях, созависимостью, самооценкой и личными границами. В работе опираюсь на EMDR, терапию принятия и ответственности (ACT) и психосинтез.</p>
+      <p>Эту тетрадь я собрала из того, что помогает моим клиентам в кабинете: теория простым языком, упражнения, которые работают, и инструменты, которые можно открыть прямо в момент тревоги.</p>
+      <p class="sign">Елена · @elena_myrlen</p>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="price">
+  <div class="narrow" style="max-width:1040px">
+    <span class="eyebrow">Стоимость</span>
+    <h2>Рабочая тетрадь «Тревога в отношениях»</h2>
+    <div class="offer">
+      <div class="offer-main">
+        <ul>
+          <li>5 блоков теории простым языком</li>
+          <li>Самотест на тип привязанности</li>
+          <li>Упражнения и 7 интерактивных инструментов</li>
+          <li>Доступ навсегда, на телефоне и компьютере</li>
+          <li>Ответы сохраняются у вас, никто их не видит</li>
+        </ul>
+        <p class="fine">После оплаты на почту придёт письмо со ссылкой на тетрадь. Если письма нет, проверьте папку «Спам» или напишите мне в Instagram.</p>
+      </div>
+      <div class="offer-side">
+        <span class="price-tag" style="justify-self:start">Стартовая цена первую неделю</span>
+        <div class="timer" aria-label="До конца стартовой цены">
+          <div><b>6</b><small>дней</small></div>
+          <div><b>23</b><small>часа</small></div>
+          <div><b>59</b><small>минут</small></div>
+        </div>
+        <div class="price-line"><span class="price-now">1 490 ₽</span><span class="price-old">1 990 ₽</span></div>
+        <div class="cur">
+          <a class="btn primary" href="#price">Оплатить картой РФ или СБП</a>
+          <a class="btn ghost" href="#price">Pay from abroad · $27</a>
+        </div>
+        <p class="fine">Оплата через защищённую платёжную форму. Чек самозанятой придёт на почту.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band white">
+  <div class="narrow">
+    <span class="eyebrow">Вопросы</span>
+    <h2>Частые вопросы</h2>
+    <div class="faq">
+      <details><summary>Как я получу тетрадь?</summary><p>Сразу после оплаты на почту, которую вы укажете в форме, придёт письмо со ссылкой. Сохраните её: по ней тетрадь открывается в любой момент.</p></details>
+      <details><summary>Можно проходить с телефона?</summary><p>Да. Тетрадь открывается в браузере на телефоне, планшете и компьютере. Ответы сохраняются на том устройстве, где вы их пишете, поэтому лучше выбрать одно.</p></details>
+      <details><summary>Кто увидит мои ответы?</summary><p>Никто. Ответы никуда не отправляются и хранятся только в вашем браузере. В конце блока их можно скопировать себе или показать психологу.</p></details>
+      <details><summary>Тетрадь заменяет терапию?</summary><p>Нет. Это инструмент самостоятельной работы. Если тревога несколько недель мешает спать, есть или работать, бывают панические атаки или упражнения поднимают тяжёлые воспоминания, лучше обратиться к специалисту. Тетрадь можно проходить параллельно с терапией.</p></details>
+      <details><summary>Подойдёт, если я сейчас не в отношениях?</summary><p>Да. Многие упражнения опираются на прошлый опыт, а понимание своей тревоги пригодится в следующих отношениях.</p></details>
+      <details><summary>Я живу не в России. Как оплатить?</summary><p>Нажмите «Pay from abroad»: оплата $27 картой иностранного банка.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="in">
+    <span>Елена Мырленко, самозанятая · ИНН: будет добавлен</span>
+    <span>Договор оферты · Политика конфиденциальности</span>
+    <span>@elena_myrlen</span>
+  </div>
+</footer>
+
+<script>
+const r = document.getElementById('anx'), o = document.getElementById('anxOut');
+r.addEventListener('input', () => { o.textContent = r.value + '/10'; });
+</script>
+
+</body>
+</html>
