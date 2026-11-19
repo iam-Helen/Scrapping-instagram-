@@ -76,7 +76,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .top .btn { margin-left: auto; padding: 10px 18px; font-size: 15px; border-radius: 11px; }
 
 /* hero */
-.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 760px; }
 .hero-photo { position: relative; margin: 0; min-width: 0; }
 .hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 28px; box-shadow: 0 30px 60px -30px rgba(30,42,58,.4); }
 .hero-photo figcaption { position: absolute; left: 16px; bottom: 16px; background: var(--surface); border-radius: 14px; padding: 10px 14px; font: 500 15px/1.3 var(--display); box-shadow: 0 6px 20px -8px rgba(30,42,58,.3); }
@@ -296,10 +296,6 @@ footer .in { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: spa
       </div>
       <p class="fine">Из-за границы: $27 картой иностранного банка. Ссылка на тетрадь придёт на почту сразу после оплаты.</p>
     </div>
-    <figure class="hero-photo">
-      <img src="elena.jpg" width="1000" height="1333" alt="Елена Мырленко, психолог и EMDR-терапевт">
-      <figcaption>Елена Мырленко<br><span>психолог, EMDR-терапевт</span></figcaption>
-    </figure>
   </div>
 </section>
 
