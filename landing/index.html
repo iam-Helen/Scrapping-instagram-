@@ -147,12 +147,12 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .pane.you .pane-h { color: var(--warm-ink); }
 .pane.you .prow { font: italic 400 14px/1.35 var(--display); color: var(--warm-ink); }
 .pane.camv { background: var(--accent-soft); padding: 16px 14px; }
-.pane.camv .prow { filter: blur(calc(2.5px * (1 - var(--t)))); display: flex; align-items: center; gap: 6px; }
-.pane.camv .corner { opacity: 1; width: calc(22px - 8px * var(--t)); height: calc(22px - 8px * var(--t)); }
-.pane.camv .corner.tl { top: calc(12px - 6px * var(--t)); left: calc(12px - 6px * var(--t)); }
-.pane.camv .corner.tr { top: calc(12px - 6px * var(--t)); right: calc(12px - 6px * var(--t)); }
-.pane.camv .corner.bl { bottom: calc(12px - 6px * var(--t)); left: calc(12px - 6px * var(--t)); }
-.pane.camv .corner.br { bottom: calc(12px - 6px * var(--t)); right: calc(12px - 6px * var(--t)); }
+.pane.camv .prow { display: flex; align-items: center; gap: 6px; }
+.pane.camv .corner { opacity: 1; width: 14px; height: 14px; }
+.pane.camv .corner.tl { top: 6px; left: 6px; }
+.pane.camv .corner.tr { top: 6px; right: 6px; }
+.pane.camv .corner.bl { bottom: 6px; left: 6px; }
+.pane.camv .corner.br { bottom: 6px; right: 6px; }
 .ph-t { display: inline-flex; align-items: center; gap: 6px; }
 .camico { width: 18px; height: 18px; flex: none; }
 .pane.you .prow { display: flex; align-items: center; }
