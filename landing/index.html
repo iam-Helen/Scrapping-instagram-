@@ -138,6 +138,16 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .crow .a { font: italic 400 14.5px/1.35 var(--display); color: var(--warm-ink); opacity: calc(1 - var(--t)); }
 .crow .f { color: var(--ink); opacity: var(--t); }
 .crow .f::before { content: "▶ "; color: var(--accent); font-size: 10px; }
+.pane { position: relative; border-radius: 14px; padding: 12px 14px; display: grid; gap: 6px; transition: opacity .2s; }
+.pane-h { display: flex; justify-content: space-between; align-items: center; font: 500 15px var(--display); }
+.prow { background: var(--surface); border-radius: 10px; padding: 8px 12px; font-size: 14px; line-height: 1.35; }
+.pane.you { background: var(--warm-soft); opacity: calc(1 - .55 * var(--t)); }
+.pane.you .pane-h { color: var(--warm-ink); }
+.pane.you .prow { font: italic 400 14.5px/1.35 var(--display); color: var(--warm-ink); background-image: linear-gradient(currentColor, currentColor); background-repeat: no-repeat; background-position: 12px 55%; background-size: calc(var(--t) * (100% - 24px)) 1.5px; }
+.pane.camv { background: var(--accent-soft); opacity: calc(.45 + .55 * var(--t)); }
+.pane.camv .pane-h { color: var(--accent-deep); }
+.pane.camv .prow::before { content: "▶ "; color: var(--accent); font-size: 10px; }
+.pane.camv .rec { opacity: 1; }
 .cam-ctrl { display: grid; gap: 6px; }
 .cam-ctrl input { width: 100%; appearance: none; height: 8px; border-radius: 4px; background: linear-gradient(90deg, var(--warm), var(--accent)); cursor: pointer; }
 .cam-ctrl input::-webkit-slider-thumb { appearance: none; width: 28px; height: 28px; border-radius: 50%; background: var(--surface); border: 3px solid var(--accent); box-shadow: 0 2px 6px rgba(30,42,58,.3); }
@@ -279,19 +289,22 @@ footer .in { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: spa
         <div class="dev-body">
           <p class="cam-intro">Помогает снять тревогу здесь и сейчас: <b>отделить факты от того, что додумала тревога.</b> Представьте, что всё происходящее снимает камера. Что она бы записала?</p>
           <div class="situation"><small>Ситуация</small>Вы написали ему в обед: «Как прошёл день?». Прошёл час, ответа нет.</div>
-          <div class="lens">
+          <div class="pane you">
+            <div class="pane-h">Так видите вы</div>
+            <div class="prow">«Я ему не нужна»</div>
+            <div class="prow">«Он потерял ко мне интерес»</div>
+            <div class="prow">«Он намеренно меня игнорирует»</div>
+          </div>
+          <div class="pane camv">
             <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
-            <div class="lens-head">
-              <div class="lens-mode"><span class="m-anx">Так видит тревога</span><span class="m-cam">Так видит камера</span></div>
-              <div class="rec"><i></i>REC</div>
-            </div>
-            <div class="crow"><span class="a">«Он меня игнорирует»</span><span class="f">Сообщение отправлено в 13:05</span></div>
-            <div class="crow"><span class="a">«Я ему больше не интересна»</span><span class="f">Прошёл 1 час, ответа пока нет</span></div>
-            <div class="crow"><span class="a">«Он сейчас с кем-то другим»</span><span class="f">Где он и что делает, камере не видно</span></div>
-            <div class="crow"><span class="a">«Он всегда так со мной»</span><span class="f">Вчера он ответил через 10 минут</span></div>
+            <div class="pane-h"><span>Так видит камера</span><span class="rec"><i></i>REC</span></div>
+            <div class="prow">Сообщение отправлено в 13:05</div>
+            <div class="prow">Прошёл 1 час, ответа пока нет</div>
+            <div class="prow">Где он и что делает, камере не видно</div>
+            <div class="prow">Вчера он ответил через 10 минут</div>
           </div>
           <div class="cam-ctrl">
-            <label class="hint" for="camRange" id="camHint">Подвиньте ползунок вправо →</label>
+            <label class="hint" for="camRange" id="camHint">Двигайте ползунок: посмотрите на ситуацию глазами камеры →</label>
             <input id="camRange" type="range" min="0" max="100" value="0" aria-label="Глазами тревоги или глазами камеры">
             <div class="cam-ends"><span>Глазами тревоги</span><span>Глазами камеры</span></div>
           </div>
