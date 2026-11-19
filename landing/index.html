@@ -111,6 +111,48 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .camera .fact { background: var(--accent-soft); }
 .camera .story { background: var(--warm-soft); }
 .camera small { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+/* camera exercise */
+.cam-intro { font-size: 14.5px; line-height: 1.5; color: var(--muted); }
+.cam-intro b { color: var(--ink); font-weight: 600; }
+.situation { background: var(--sunk); border-radius: 12px; padding: 10px 14px; font-size: 14.5px; line-height: 1.45; }
+.situation small, .lens-head small { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+.lens { position: relative; border-radius: 14px; padding: 14px; display: grid; gap: 8px; isolation: isolate; }
+.lens::before, .lens::after { content: ""; position: absolute; inset: 0; border-radius: 14px; z-index: -1; }
+.lens::before { background: var(--warm-soft); opacity: calc(1 - var(--t)); }
+.lens::after { background: var(--accent-soft); opacity: var(--t); }
+.lens-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.lens-mode { display: grid; font: 500 15px var(--display); }
+.lens-mode span { grid-area: 1 / 1; }
+.lens-mode .m-anx { color: var(--warm-ink); opacity: calc(1 - var(--t)); }
+.lens-mode .m-cam { color: var(--accent-deep); opacity: var(--t); }
+.rec { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #D2483C; opacity: var(--t); }
+.rec i { width: 8px; height: 8px; border-radius: 50%; background: #D2483C; animation: blink 1.2s steps(2) infinite; }
+@keyframes blink { 50% { opacity: .2; } }
+.corner { position: absolute; width: 14px; height: 14px; border: 2px solid var(--accent); opacity: var(--t); }
+.corner.tl { top: 6px; left: 6px; border-right: 0; border-bottom: 0; }
+.corner.tr { top: 6px; right: 6px; border-left: 0; border-bottom: 0; }
+.corner.bl { bottom: 6px; left: 6px; border-right: 0; border-top: 0; }
+.corner.br { bottom: 6px; right: 6px; border-left: 0; border-top: 0; }
+.crow { display: grid; background: var(--surface); border-radius: 10px; padding: 9px 12px; font-size: 14px; line-height: 1.35; min-height: 40px; align-items: center; }
+.crow span { grid-area: 1 / 1; }
+.crow .a { font: italic 400 14.5px/1.35 var(--display); color: var(--warm-ink); opacity: calc(1 - var(--t)); }
+.crow .f { color: var(--ink); opacity: var(--t); }
+.crow .f::before { content: "▶ "; color: var(--accent); font-size: 10px; }
+.cam-ctrl { display: grid; gap: 6px; }
+.cam-ctrl input { width: 100%; appearance: none; height: 8px; border-radius: 4px; background: linear-gradient(90deg, var(--warm), var(--accent)); cursor: pointer; }
+.cam-ctrl input::-webkit-slider-thumb { appearance: none; width: 28px; height: 28px; border-radius: 50%; background: var(--surface); border: 3px solid var(--accent); box-shadow: 0 2px 6px rgba(30,42,58,.3); }
+.cam-ctrl input::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--surface); border: 3px solid var(--accent); }
+.cam-ends { display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 600; }
+.cam-ends span:first-child { color: var(--warm-ink); }
+.cam-ends span:last-child { color: var(--accent-deep); }
+.hint { font-size: 13px; color: var(--accent); text-align: center; animation: nudge 1.6s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateX(6px); } }
+.anx-meter { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: 13px; color: var(--muted); }
+.anx-meter .t { height: 8px; border-radius: 4px; background: var(--sunk); overflow: hidden; }
+.anx-meter .t i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--calm), var(--warm)); width: calc((85 - 55 * var(--t)) * 1%); }
+.anx-meter b { color: var(--warm-ink); font-variant-numeric: tabular-nums; min-width: 3em; text-align: right; }
+.cam-out { font-size: 14px; line-height: 1.45; background: var(--surface); border: 1px solid var(--accent); border-radius: 12px; padding: 10px 14px; }
+@media (prefers-reduced-motion: reduce) { .hint, .rec i { animation: none; } }
 .dev-cap { font-size: 13px; color: var(--muted); text-align: center; margin-top: 12px; }
 
 /* tired */
@@ -229,28 +271,34 @@ footer .in { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: spa
     </div>
 
     <div>
-      <div class="device" aria-label="Как выглядит тетрадь">
+      <div class="device" id="cam" style="--t:0" aria-label="Упражнение из тетради: Что записала бы камера?">
         <div class="dev-bar">
-          <div><small>Блок 2 · Тренажёр</small><b>Что записала бы камера?</b></div>
-          <div class="dev-prog"><span><i></i></span>38%</div>
+          <div><small>Блок 2 · Упражнение</small><b>Что записала бы камера?</b></div>
         </div>
         <div class="dev-body">
-          <div class="chat">
-            <div class="bubble">Как прошёл день? Позвонишь вечером?</div>
-            <div class="read">Прочитано 14:02 · ответа нет 3 ч</div>
+          <p class="cam-intro">Помогает снять тревогу здесь и сейчас: <b>отделить факты от того, что додумала тревога.</b> Представьте, что всё происходящее снимает камера. Что она бы записала?</p>
+          <div class="situation"><small>Ситуация</small>Вы написали ему в обед: «Как прошёл день?». Прошёл час, ответа нет.</div>
+          <div class="lens">
+            <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+            <div class="lens-head">
+              <div class="lens-mode"><span class="m-anx">Так видит тревога</span><span class="m-cam">Так видит камера</span></div>
+              <div class="rec"><i></i>REC</div>
+            </div>
+            <div class="crow"><span class="a">«Он меня игнорирует»</span><span class="f">Сообщение отправлено в 13:05</span></div>
+            <div class="crow"><span class="a">«Я ему больше не интересна»</span><span class="f">Прошёл 1 час, ответа пока нет</span></div>
+            <div class="crow"><span class="a">«Он сейчас с кем-то другим»</span><span class="f">Где он и что делает, камере не видно</span></div>
+            <div class="crow"><span class="a">«Он всегда так со мной»</span><span class="f">Вчера он ответил через 10 минут</span></div>
           </div>
-          <p class="thought">«Он отдаляется. Я ему надоела».</p>
-          <div class="camera">
-            <div class="fact"><small>Камера записала бы</small>Сообщение прочитано, ответа пока нет</div>
-            <div class="story"><small>Тревога додумала</small>Я ему больше не интересна</div>
+          <div class="cam-ctrl">
+            <label class="hint" for="camRange" id="camHint">Подвиньте ползунок вправо →</label>
+            <input id="camRange" type="range" min="0" max="100" value="0" aria-label="Глазами тревоги или глазами камеры">
+            <div class="cam-ends"><span>Глазами тревоги</span><span>Глазами камеры</span></div>
           </div>
-          <div class="mini">
-            <label for="anx">Насколько сильная тревога сейчас?</label>
-            <div class="scale"><span>0</span><input id="anx" type="range" min="0" max="10" value="7"><output id="anxOut">7/10</output></div>
-          </div>
+          <div class="anx-meter"><span>Тревога</span><span class="t"><i></i></span><b id="anxVal">8/10</b></div>
+          <p class="cam-out" id="camOut" hidden>Факт один: он не ответил час. Всё остальное — догадки. Их можно проверить, а не верить им сразу.</p>
         </div>
       </div>
-      <p class="dev-cap">Так выглядит упражнение внутри тетради. Ползунок можно подвигать.</p>
+      <p class="dev-cap">Так работает упражнение внутри тетради.</p>
     </div>
   </div>
 </section>
@@ -469,8 +517,15 @@ footer .in { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: spa
 </footer>
 
 <script>
-const r = document.getElementById('anx'), o = document.getElementById('anxOut');
-r.addEventListener('input', () => { o.textContent = r.value + '/10'; });
+const cam = document.getElementById('cam'), cr = document.getElementById('camRange');
+const av = document.getElementById('anxVal'), co = document.getElementById('camOut'), ch = document.getElementById('camHint');
+cr.addEventListener('input', () => {
+  const t = cr.value / 100;
+  cam.style.setProperty('--t', t);
+  av.textContent = Math.round(8 - 5 * t) + '/10';
+  co.hidden = t < 0.9;
+  ch.style.visibility = 'hidden';
+});
 </script>
 
 </body>
