@@ -138,16 +138,25 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .crow .a { font: italic 400 14.5px/1.35 var(--display); color: var(--warm-ink); opacity: calc(1 - var(--t)); }
 .crow .f { color: var(--ink); opacity: var(--t); }
 .crow .f::before { content: "▶ "; color: var(--accent); font-size: 10px; }
-.panes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-items: start; }
-.pane { position: relative; min-width: 0; align-content: start; border-radius: 14px; padding: 12px 10px; display: grid; gap: 6px; transition: opacity .2s; }
+.panes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto repeat(3, auto); column-gap: 8px; }
+.pane { position: relative; min-width: 0; align-content: start; border-radius: 14px; padding: 12px 10px; display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 6px; }
 .pane-h { display: flex; flex-wrap: wrap; gap: 4px; justify-content: space-between; align-items: center; font: 500 15px/1.25 var(--display); padding: 0 2px 2px; }
 .prow { background: var(--surface); border-radius: 10px; padding: 8px 10px; font-size: 13.5px; line-height: 1.35; }
-.pane.you { background: var(--warm-soft); opacity: calc(1 - .4 * var(--t)); }
+.pane.you { background: var(--warm-soft); }
 .pane.you .pane-h { color: var(--warm-ink); }
 .pane.you .prow { font: italic 400 14px/1.35 var(--display); color: var(--warm-ink); }
-.pane.camv { background: var(--accent-soft); opacity: calc(.45 + .55 * var(--t)); }
+.pane.camv { background: var(--accent-soft); padding: 16px 14px; }
+.pane.camv .prow { filter: blur(calc(2.5px * (1 - var(--t)))); display: flex; align-items: center; gap: 6px; }
+.pane.camv .corner { opacity: 1; width: calc(22px - 8px * var(--t)); height: calc(22px - 8px * var(--t)); }
+.pane.camv .corner.tl { top: calc(12px - 6px * var(--t)); left: calc(12px - 6px * var(--t)); }
+.pane.camv .corner.tr { top: calc(12px - 6px * var(--t)); right: calc(12px - 6px * var(--t)); }
+.pane.camv .corner.bl { bottom: calc(12px - 6px * var(--t)); left: calc(12px - 6px * var(--t)); }
+.pane.camv .corner.br { bottom: calc(12px - 6px * var(--t)); right: calc(12px - 6px * var(--t)); }
+.ph-t { display: inline-flex; align-items: center; gap: 6px; }
+.camico { width: 18px; height: 18px; flex: none; }
+.pane.you .prow { display: flex; align-items: center; }
 .pane.camv .pane-h { color: var(--accent-deep); }
-.pane.camv .prow::before { content: "▶ "; color: var(--accent); font-size: 10px; }
+.pane.camv .prow::before { content: "▶"; color: var(--accent); font-size: 10px; }
 .pane.camv .rec { opacity: 1; }
 .cam-ctrl { display: grid; gap: 6px; }
 .cam-ctrl input { width: 100%; appearance: none; height: 8px; border-radius: 4px; background: linear-gradient(90deg, var(--warm), var(--accent)); cursor: pointer; }
@@ -299,11 +308,10 @@ footer .in { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: spa
           </div>
           <div class="pane camv">
             <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
-            <div class="pane-h"><span>Так видит камера</span><span class="rec"><i></i>REC</span></div>
+            <div class="pane-h"><span class="ph-t"><svg class="camico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-2.5h6L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12.5" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Так видит камера</span><span class="rec"><i></i>REC</span></div>
             <div class="prow">Сообщение отправлено в 13:05</div>
             <div class="prow">Прошёл 1 час, ответа пока нет</div>
             <div class="prow">Где он и что делает, камере не видно</div>
-            <div class="prow">Вчера он ответил через 10 минут</div>
           </div>
           </div>
           <div class="cam-ctrl">
