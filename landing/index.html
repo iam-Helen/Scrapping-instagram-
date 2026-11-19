@@ -76,7 +76,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .top .btn { margin-left: auto; padding: 10px 18px; font-size: 15px; border-radius: 11px; }
 
 /* hero */
-.hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 760px; }
+.try { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
 .hero-text { display: grid; gap: 22px; min-width: 0; }
 .hero h1 em { font-style: italic; color: var(--accent); }
 .price-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
@@ -248,7 +249,7 @@ footer .in { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: spa
 .draft { background: var(--warm-soft); color: var(--ink); font-size: 13.5px; text-align: center; padding-block: 8px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 
 @media (max-width: 860px) {
-  .hero, .tired, .author, .offer { grid-template-columns: minmax(0, 1fr); }
+  .hero, .try, .tired, .author, .offer { grid-template-columns: minmax(0, 1fr); }
   .offer-side { border-left: 0; border-top: 1px solid var(--line); }
   .how { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .photo { max-width: 200px; }
@@ -291,40 +292,6 @@ footer .in { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: spa
       <p class="fine">Из-за границы: $27 картой иностранного банка. Ссылка на тетрадь придёт на почту сразу после оплаты.</p>
     </div>
 
-    <div>
-      <div class="device" id="cam" style="--t:0" aria-label="Упражнение из тетради: Что записала бы камера?">
-        <div class="dev-bar">
-          <div><small>Блок 2 · Упражнение</small><b>Что записала бы камера?</b></div>
-        </div>
-        <div class="dev-body">
-          <p class="cam-intro">Помогает снять тревогу здесь и сейчас: <b>отделить факты от того, что додумала тревога.</b> Представьте, что всё происходящее снимает камера. Что она бы записала?</p>
-          <div class="situation"><small>Ситуация</small>Вы написали ему в обед: «Как прошёл день?». Прошёл час, ответа нет.</div>
-          <div class="panes">
-          <div class="pane you">
-            <div class="pane-h">Так видите вы</div>
-            <div class="prow">«Я ему не нужна»</div>
-            <div class="prow">«Он потерял ко мне интерес»</div>
-            <div class="prow">«Он намеренно меня игнорирует»</div>
-          </div>
-          <div class="pane camv">
-            <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
-            <div class="pane-h"><span class="ph-t"><svg class="camico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-2.5h6L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12.5" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Так видит камера</span><span class="rec"><i></i>REC</span></div>
-            <div class="prow">Сообщение отправлено в 13:05</div>
-            <div class="prow">Прошёл 1 час, ответа пока нет</div>
-            <div class="prow">Где он и что делает, камере не видно</div>
-          </div>
-          </div>
-          <div class="cam-ctrl">
-            <label class="hint" for="camRange" id="camHint">Двигайте ползунок: посмотрите на ситуацию глазами камеры →</label>
-            <input id="camRange" type="range" min="0" max="100" value="0" aria-label="Глазами тревоги или глазами камеры">
-            <div class="cam-ends"><span>Глазами тревоги</span><span>Глазами камеры</span></div>
-          </div>
-          <p class="meter-q">Насколько ощущается тревога сейчас?</p>
-          <div class="anx-meter"><span>Тревога</span><span class="t"><i></i></span><b id="anxVal">8/10</b></div>
-          <p class="cam-out" id="camOut" hidden>Камера записала только факты: прошёл час, ответа нет. Остальное додумала ваша тревога. Когда видно, где факт, а где догадка, тревога становится меньше.</p>
-        </div>
-      </div>
-      <p class="dev-cap">Так работает упражнение внутри тетради.</p>
     </div>
   </div>
 </section>
@@ -441,6 +408,51 @@ footer .in { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: spa
         </div>
       </article>
     </div>
+  </div>
+</section>
+
+<section class="band" id="try">
+  <div class="in try">
+    <div class="stack">
+      <span class="eyebrow">Попробуйте прямо сейчас</span>
+      <h2>Одно упражнение из тетради</h2>
+      <p class="lead">«Что записала бы камера?» из блока 2. Оно помогает в тот момент, когда тревога уже накрыла: отделить то, что произошло, от того, что вы додумали.</p>
+      <p>Подвигайте ползунок и посмотрите, как меняется картина, когда вы смотрите на ситуацию глазами камеры.</p>
+    </div>
+    <div>
+      <div class="device" id="cam" style="--t:0" aria-label="Упражнение из тетради: Что записала бы камера?">
+        <div class="dev-bar">
+          <div><small>Блок 2 · Упражнение</small><b>Что записала бы камера?</b></div>
+        </div>
+        <div class="dev-body">
+          <p class="cam-intro">Помогает снять тревогу здесь и сейчас: <b>отделить факты от того, что додумала тревога.</b> Представьте, что всё происходящее снимает камера. Что она бы записала?</p>
+          <div class="situation"><small>Ситуация</small>Вы написали ему в обед: «Как прошёл день?». Прошёл час, ответа нет.</div>
+          <div class="panes">
+          <div class="pane you">
+            <div class="pane-h">Так видите вы</div>
+            <div class="prow">«Я ему не нужна»</div>
+            <div class="prow">«Он потерял ко мне интерес»</div>
+            <div class="prow">«Он намеренно меня игнорирует»</div>
+          </div>
+          <div class="pane camv">
+            <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+            <div class="pane-h"><span class="ph-t"><svg class="camico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-2.5h6L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12.5" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Так видит камера</span><span class="rec"><i></i>REC</span></div>
+            <div class="prow">Сообщение отправлено в 13:05</div>
+            <div class="prow">Прошёл 1 час, ответа пока нет</div>
+            <div class="prow">Где он и что делает, камере не видно</div>
+          </div>
+          </div>
+          <div class="cam-ctrl">
+            <label class="hint" for="camRange" id="camHint">Двигайте ползунок: посмотрите на ситуацию глазами камеры →</label>
+            <input id="camRange" type="range" min="0" max="100" value="0" aria-label="Глазами тревоги или глазами камеры">
+            <div class="cam-ends"><span>Глазами тревоги</span><span>Глазами камеры</span></div>
+          </div>
+          <p class="meter-q">Насколько ощущается тревога сейчас?</p>
+          <div class="anx-meter"><span>Тревога</span><span class="t"><i></i></span><b id="anxVal">8/10</b></div>
+          <p class="cam-out" id="camOut" hidden>Камера записала только факты: прошёл час, ответа нет. Остальное додумала ваша тревога. Когда видно, где факт, а где догадка, тревога становится меньше.</p>
+        </div>
+      </div>
+      <p class="dev-cap">Так работает упражнение внутри тетради.</p>
   </div>
 </section>
 
