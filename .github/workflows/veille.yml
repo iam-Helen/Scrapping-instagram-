@@ -4,7 +4,16 @@ on:
   schedule:
     # Каждый понедельник в 10:00 по Бали (UTC+8, без перехода на летнее время) = 02:00 UTC.
     - cron: "0 2 * * 1"
-  workflow_dispatch: {}  # кнопка «Run workflow» для ручного запуска
+  workflow_dispatch:  # кнопка «Run workflow» для ручного запуска
+    inputs:
+      compte:
+        description: "Разобрать один аккаунт (имя). Пусто = обычный еженедельный отчёт"
+        required: false
+        default: ""
+      publications:
+        description: "Сколько последних публикаций взять для разбора аккаунта"
+        required: false
+        default: "60"
 
 permissions:
   contents: read
@@ -20,7 +29,15 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
+      - name: Разбор одного аккаунта
+        if: ${{ github.event.inputs.compte != '' && github.event.inputs.compte != null }}
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          COMPTE: ${{ github.event.inputs.compte }}
+          PUBLICATIONS: ${{ github.event.inputs.publications }}
+        run: python analyse_compte.py "$COMPTE" "$PUBLICATIONS"
       - name: Запустить мониторинг и отправить отчёт
+        if: ${{ github.event.inputs.compte == '' || github.event.inputs.compte == null }}
         env:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}  # необязательно: ИИ-анализ
