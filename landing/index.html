@@ -133,11 +133,13 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .corner.tr { top: 6px; right: 6px; border-left: 0; border-bottom: 0; }
 .corner.bl { bottom: 6px; left: 6px; border-right: 0; border-top: 0; }
 .corner.br { bottom: 6px; right: 6px; border-left: 0; border-top: 0; }
-.crow { display: grid; background: var(--surface); border-radius: 10px; padding: 9px 12px; font-size: 14px; line-height: 1.35; min-height: 40px; align-items: center; }
-.crow span { grid-area: 1 / 1; }
-.crow .a { font: italic 400 14.5px/1.35 var(--display); color: var(--warm-ink); opacity: calc(1 - var(--t)); }
-.crow .f { color: var(--ink); opacity: var(--t); }
-.crow .f::before { content: "▶ "; color: var(--accent); font-size: 10px; }
+.crow { display: grid; gap: 4px; background: var(--surface); border-radius: 10px; padding: 9px 12px; line-height: 1.35; }
+.crow em { font: 600 10px var(--body); font-style: normal; letter-spacing: .07em; text-transform: uppercase; margin-right: 6px; }
+.crow .a { order: calc(var(--t) * 2); font-family: var(--display); font-style: italic; font-size: calc(15.5px - 2.5px * var(--t)); color: var(--warm-ink); opacity: calc(1 - .45 * var(--t)); }
+.crow .a em { color: var(--warm-ink); }
+.crow .a q { quotes: "«" "»"; background: linear-gradient(currentColor, currentColor) no-repeat 0 58% / calc(var(--t) * 100%) 1.5px; }
+.crow .f { order: 1; font-size: 14.5px; color: var(--ink); opacity: calc(.2 + .8 * var(--t)); font-weight: 500; }
+.crow .f em { color: var(--accent); }
 .cam-ctrl { display: grid; gap: 6px; }
 .cam-ctrl input { width: 100%; appearance: none; height: 8px; border-radius: 4px; background: linear-gradient(90deg, var(--warm), var(--accent)); cursor: pointer; }
 .cam-ctrl input::-webkit-slider-thumb { appearance: none; width: 28px; height: 28px; border-radius: 50%; background: var(--surface); border: 3px solid var(--accent); box-shadow: 0 2px 6px rgba(30,42,58,.3); }
@@ -284,10 +286,9 @@ footer .in { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: spa
               <div class="lens-mode"><span class="m-anx">Так видит тревога</span><span class="m-cam">Так видит камера</span></div>
               <div class="rec"><i></i>REC</div>
             </div>
-            <div class="crow"><span class="a">«Он меня игнорирует»</span><span class="f">Сообщение отправлено в 13:05</span></div>
-            <div class="crow"><span class="a">«Я ему больше не интересна»</span><span class="f">Прошёл 1 час, ответа пока нет</span></div>
-            <div class="crow"><span class="a">«Он сейчас с кем-то другим»</span><span class="f">Где он и что делает, камере не видно</span></div>
-            <div class="crow"><span class="a">«Он всегда так со мной»</span><span class="f">Вчера он ответил через 10 минут</span></div>
+            <div class="crow"><span class="a"><em>Я додумала</em><q>Он меня игнорирует</q></span><span class="f"><em>Камера</em>Прошёл час, ответа нет</span></div>
+            <div class="crow"><span class="a"><em>Я додумала</em><q>Я ему больше не интересна</q></span><span class="f"><em>Камера</em>Утром он написал «доброе утро»</span></div>
+            <div class="crow"><span class="a"><em>Я додумала</em><q>Он сейчас с кем-то другим</q></span><span class="f"><em>Камера</em>Где он и что делает, не видно</span></div>
           </div>
           <div class="cam-ctrl">
             <label class="hint" for="camRange" id="camHint">Подвиньте ползунок вправо →</label>
@@ -295,7 +296,7 @@ footer .in { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: spa
             <div class="cam-ends"><span>Глазами тревоги</span><span>Глазами камеры</span></div>
           </div>
           <div class="anx-meter"><span>Тревога</span><span class="t"><i></i></span><b id="anxVal">8/10</b></div>
-          <p class="cam-out" id="camOut" hidden>Факт один: он не ответил час. Всё остальное — догадки. Их можно проверить, а не верить им сразу.</p>
+          <p class="cam-out" id="camOut" hidden>Камера записала только факты: прошёл час, ответа нет. Остальное додумала тревога. Когда видно, где факт, а где догадка, тревога становится тише.</p>
         </div>
       </div>
       <p class="dev-cap">Так работает упражнение внутри тетради.</p>
